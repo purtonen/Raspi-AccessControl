@@ -1,0 +1,36 @@
+select {
+	background-color: #30353a
+}
+footer {
+    position: fixed;
+    height: 20px;
+    bottom: 0;
+    width: 100%;
+    background-color: #222528;
+}
+body {
+	padding-top: 50px;
+	padding-bottom: 20px;
+}
+td, th {
+	text-align: center;
+}
+.table tbody>tr>td.vert-align{
+	vertical-align: middle;
+}
+.table-nested {
+	margin-bottom: 0;
+	border-bottom: 1px dotted;
+	border-color: #494949;
+}
+.col-padded {
+	padding-bottom: 30px;
+}
+p#legal {
+	color: #00ce00;
+	margin: 0;
+}
+p#illegal {
+	color: #ff0000;
+	margin: 0;
+}
