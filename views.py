@@ -46,7 +46,7 @@ def open_door(request):
 	if request.method == 'POST':
 		door = Door.objects.get(id=request.POST.get('id'))
 		form = OpenDoorForm(request.POST, instance=door)
-		if form.is_valid:
+		if form.is_valid():
 			open_door = form.save()
 			return HttpResponseRedirect('/')
 
@@ -55,9 +55,15 @@ def open_door(request):
 def edit_card(request):
 	if request.method == 'POST':
 		form = CardForm(request.POST)
-		if form.is_valid:
+		if form.is_valid():
 			edited_card = form.save()
 			return HttpResponseRedirect('/')
 
 	return HttpResponseRedirect('/')
 
+def updateDoors(request):
+	data = {
+		'doors': Door.objects.all(),
+		'open_door_form': OpenDoorForm(),
+	}
+	return render(request, 'WebControl/doors.html', {'data': data})

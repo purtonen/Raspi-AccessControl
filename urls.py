@@ -7,7 +7,7 @@ urlpatterns = [
 	url(r'^cards$', views.cards, name='cards'),
 	url(r'^log$', views.log, name='log'),
 	url(r'^users$', views.users, name='users'),
-
+	url(r'^update_doors$', views.updateDoors, name='update-doors'),
 
 	url(r'^login$', login, {'template_name': 'admin/login.html'}, name='login'),
 	url(r'^logout$', logout, {'next_page': '/'}, name='logout'),

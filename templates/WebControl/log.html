@@ -29,15 +29,7 @@
 			    			{% endif %}
 			    		</td>
 			    		{% if event.card != None %}
-				    		{% if event.card.owner == None %}
-				    			<td class="vert-align">
-					    			<button id="addUser" title="Add card to a user" 
-					    				class="btn-block btn-default">Assign user</button>
-					    			{{event.card.id}}
-				    			</td>
-				    		{% else %}
-				    			<td class="vert-align">{{event.card}}
-				    		{% endif %}
+				    		<td class="vert-align">{{event.card}}
 				    	{% else %}
 				    		<td class="vert-align">-</td>
 			    		{% endif %}

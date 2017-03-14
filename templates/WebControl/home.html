@@ -1,55 +1,23 @@
 {% extends "WebControl/base.html" %}
 
 {% block content %}
-<div class="container">
+{% load static %}
+<div class="container" id="home-container">
 	<h3 class="text-center">DOORS:</h3>
 	<div class="row">
 		<div id ="doors" class="col-md-12">
-			{% load static %}
-		    {% for door in data.doors %}
-		    	{% if door.open %}
-		    		<div class="col-md-2 col-sm-3 col-xs-6 col-padded">
-		    			<h4 class="text-center">{{door.name}}<br>d.{{door.id}}</h4>
-		    			<center>
-							<img src="{% static 'img/door-open-64.ico' %}">
-							{% if door.controllable %}
-								<img src="{% static 'img/rfid-48.png' %}">
-							{% endif %}
-						</center>
-		    		</div>
-				{% else %}
-					<div class="col-md-2 col-sm-3 col-xs-6 col-padded">
-						<h4 class="text-center">{{door.name}}<br>d.{{door.id}}</h4>
-						<center>
-							<form action="/open_door" method="POST" id="openDoor">
-								{% csrf_token %}
-								{{ data.open_door_form }}
-								<input type="hidden" value={{door.id}} name="id">
-								<input type="image" 
-									src="{% static 'img/door-closed-64.ico' %}"
-									value="Open Door"
-									class="img-responsive center-block">
-							</form>
-							{% if door.controllable %}
-								<img src="{% static 'img/rfid-48.png' %}">
-							{% endif %}
-						</center>
-					</div>
-				{% endif %}
-			{% empty %}
-				<em>No doors in system</em>
-			{% endfor %}
+			{% include 'WebControl/doors.html' %}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">
 			<h3>ADD CARD:</h3> <br>
-			<form action="/edit_card" method="POST" id="cardForm">
+			<form action="edit_card" method="POST" id="cardForm">
 				<div class="form-group">
 					{% csrf_token %}
 					{{ data.edit_card_form.as_p }}
 					<script type="text/javascript">
-						document.getElementById('id_id').value = '1234';
+						document.getElementById('id_id').value = '1234555';
 					</script>
 					<input type="submit" value="Edit Card" />
 				</div>
