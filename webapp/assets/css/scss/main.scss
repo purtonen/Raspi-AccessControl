@@ -1,0 +1,264 @@
+// INCLUDES
+
+@import '_flaticon.scss';
+@import '_variables.scss';
+@import '_fonts.scss';
+
+// STYLES
+
+body{
+	margin: 0;
+	background-color: #000;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: 500px;
+	height: 100%;
+	max-height: 100vh;
+	overflow: hidden;
+	font-family: 'Audimat';
+	color: #fff;
+	background-image: url(/assets/img/lock_wp.jpg); 
+}
+div#transition-layer{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0);
+	transition: .5s background ease-in-out;
+	&.transitioning{
+		background: rgba(0, 0, 0, 0.85);
+	}
+}
+div#page{
+	width: 100%;
+	height: 100%;
+	max-height: 100vh;
+	margin: 0 auto;
+	transition: background 2s ease-in-out;
+	background: $bg_normal;
+	&.red{
+		background: $bg_red;
+	}
+	&.yellow{
+		background: $bg_yellow;
+	}
+	&.green{
+		background: $bg_green;
+	}
+	&.dimmed{
+		background: $bg_dimmed;
+	}
+}
+a, a:visited{
+	text-decoration: none;
+	color: inherit;
+	&:hover{
+		text-shadow: 0 0 30px #fff;
+	}
+}
+h1{
+	font-size: 50px;
+	text-align: center;
+	margin-top:0;
+}
+h2{
+	font-size: 40px;
+	text-align: center;
+	margin-top:0;
+}
+h3{
+	font-size: 30px;
+	margin-top:0;
+}
+h4{
+	font-size: 20px;
+	margin-top:0;
+}
+p{
+	margin-top:0;
+}
+nav, footer{
+	position: fixed;
+	left: 0;
+	height: 50px;
+	max-height: 50px;
+	width: 100%;
+	ul.main-navigation, ul.footer-navigation{
+		display: table;
+		table-layout: fixed;
+		margin:0;
+		text-align: center;
+		list-style-type: none;
+		height: 100%;
+		width: 60%;
+		padding: 0 20%;
+		li{
+			color: #fff;
+			display: table-cell;
+			vertical-align: middle;
+			a{
+				display: inline-block;
+				width: 70%;
+			}
+			&.selected{
+				font-weight: bold;
+			}
+		}
+	}
+}
+nav{
+	font-size: 20px;
+	top: 0;
+	background: $nav_bg;
+	#nav-indicator{
+		display: block;
+		position: absolute;
+		width: 50px;
+		height: 5px;
+		background: white;
+		top: 50px;
+		transition: left .5s ease-in-out;
+		box-shadow: 0px 0px 8px 3px #fff;
+	}
+	aside{
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		a{
+			margin-left: 10px;
+		}
+	}
+	a:before{
+		display: inline-block;
+		font-family: "Flaticon";
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		line-height: 1;
+		text-decoration: inherit;
+		text-rendering: optimizeLegibility;
+		text-transform: none;
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		font-smoothing: antialiased;
+		font-size: 30px;
+	}
+	a[href='#summary']:before{
+		content: "\f108";
+	}
+	a[href='#home']:before{
+		content: "\f18d";
+	}
+	a[href='#alerts']:before{
+		content: "\f106";
+	}
+	a[href='#log']:before{
+		content: "\f1de";
+	}
+	a[href='#settings']:before{
+		content: "\f215";
+	}
+	a[href='#exit']:before{
+		content: "\f15f";
+	}
+}
+footer{
+	font-size: 16px;
+	bottom: 0;
+	background: $footer_bg;
+}
+
+
+#content{
+	padding: 50px 0;
+	height: calc(100% - 100px);
+	width: 100%;
+	max-width: $contentWidth;
+	margin: 0 auto;
+}
+.content-slider{
+	width: 1000%;
+	height: 100%;
+	position: relative;
+	transition: left .5s ease-in-out;
+}
+.sub-page{
+	padding: 20px 0;
+	position: relative;
+	max-width: $contentWidth;
+	display: inline-block;
+	height: 100%;
+	vertical-align: top;
+}
+.overlay-wrapper{
+	position: absolute;
+	z-index: 9999;
+	top: -2000px;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.81);
+	transition: .5s top ease-in-out;
+}
+.overlay-page{
+	max-width: $contentWidth;
+	width: 100%;
+	height: calc(100% - 140px);
+	margin: 0 auto;
+	padding: 70px 0;
+}
+.page-header{
+	height: 15%;
+}
+.page-content{
+	height: 85%;
+	overflow-y: auto;
+}
+.page-content-full{
+	height: 100%;
+	overflow-y: auto;
+}
+
+i.fi{
+	vertical-align: middle;
+	&.tn{
+		font-size: 20px;
+	}
+	&.sm{
+		font-size: 30px;
+	}
+	&.md{
+		font-size: 40px;
+	}
+	&.lg{
+		font-size: 50px;
+	}
+	&.xl{
+		font-size: 60px;
+	}
+}
+i.close-overlay{
+	float: right;
+	&:hover{
+		color: $hoverColor;
+		cursor: pointer;
+	}
+}
+
+// CUSTOM SCROLLBAR
+::-webkit-scrollbar{
+	width: 13px;
+}
+::-webkit-scrollbar-track-piece{
+	background-color: #0e0e0e;;
+}
+::-webkit-scrollbar-thumb{
+	background: #333;
+	border-radius: 10px;
+}
+::-webkit-scrollbar-track{
+	background-color: #0e0e0e;
+	border-radius: 10px;
+}

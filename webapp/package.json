@@ -1,0 +1,17 @@
+{
+	"name": "RasPy",
+	"author": "Eetu Purtonen",
+	"private": true,
+	"version": "0.0.1",
+	"devDependencies": {
+		"gulp": "*",
+		"gulp-autoprefixer": "*",
+		"gulp-concat": "^2.6.0",
+		"gulp-notify": "*",
+		"gulp-plumber": "^1.0.1",
+		"gulp-rename": "*",
+		"gulp-sass": "^2.0.4",
+		"gulp-compass": "*",
+		"gulp-sourcemaps": "^1.5.2"
+	}
+}
