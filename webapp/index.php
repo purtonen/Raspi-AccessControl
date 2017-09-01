@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>RasPy Control Panel</title>
@@ -40,16 +41,16 @@
 		<div id="content">
 
 			<div class="content-slider">
-				{% module Template('summary-page.html') %}
-				{% module Template('home-page.html') %}
-				{% module Template('alerts-page.html') %}
-				{% module Template('log-page.html') %}
+				<?php include('templates/summary-page.php') ?>
+				<?php include('templates/home-page.php') ?>
+				<?php include('templates/alerts-page.php') ?>
+				<?php include('templates/log-page.php') ?>
 			</div>
 
 		</div>
 
-		{% module Template('settings-page.html') %}
-		{% module Template('exit-page.html') %}
+		<?php include('templates/settings-page.php') ?>
+		<?php include('templates/exit-page.php') ?>
 		
 		<footer>
 			<ul class="footer-navigation">
