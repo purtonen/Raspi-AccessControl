@@ -3,7 +3,7 @@ $(document).ready(function () {
 
 	socket.onopen = function () {
 		console.log('WebSocket opened');
-		socket.send(JSON.stringify({'message': 'hi'}));
+		socket.send(JSON.stringify({ 'message': 'hi' }));
 	};
 
 	socket.onclose = function () {

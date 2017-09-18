@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>RasPy Control Panel</title>
+	<title>RasPi Control Panel</title>
 	<meta content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -13,29 +14,28 @@
 	<div id="transition-layer"></div>
 	<div id="page">
 		<header>
-			<!-- TODO?: HEADER -->
+			<nav>
+				<ul class="main-navigation">
+					<li>
+						<a href="#summary"> Summary</a>
+					</li>
+					<li class="selected">
+						<a href="#home"> Home</a>
+					</li>
+					<li>
+						<a href="#alerts"> Alerts</a>
+					</li>
+					<li>
+						<a href="#log"> Log</a>
+					</li>
+				</ul>
+				<aside>
+					<a href="#settings"></a>
+					<a href="#exit"></a>
+				</aside>
+				<div id="nav-indicator"></div>
+			</nav>
 		</header>
-		<nav>
-			<ul class="main-navigation">
-				<li>
-					<a href="#summary"> Summary</a>
-				</li>
-				<li class="selected">
-					<a href="#home"> Home</a>
-				</li>
-				<li>
-					<a href="#alerts"> Alerts</a>
-				</li>
-				<li>
-					<a href="#log"> Log</a>
-				</li>
-			</ul>
-			<aside>
-				<a href="#settings"></a>
-				<a href="#exit"></a>
-			</aside>
-			<div id="nav-indicator"></div>
-		</nav>
 
 
 		<div id="content">
