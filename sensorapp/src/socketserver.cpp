@@ -3,6 +3,10 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <stdlib.h>
+#include "card.cpp"
+#include "door.cpp"
+#include "reader.cpp"
+#include "door.cpp"
 
 char *socket_path = "/tmp/ipc-test";
 
