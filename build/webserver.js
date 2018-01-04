@@ -15,7 +15,6 @@ var webSocketServer = ws.createServer(function (conn) {
 
 	conn.on('text', function (data) {
 		data = JSON.parse(data);
-
 		broadcast(webSocketServer, JSON.stringify({'message': 'hello broadcast'}));
 	});
 
