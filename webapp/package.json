@@ -12,6 +12,7 @@
 		"gulp-rename": "*",
 		"gulp-sass": "^2.0.4",
 		"gulp-compass": "*",
-		"gulp-sourcemaps": "^1.5.2"
+		"gulp-sourcemaps": "^1.5.2",
+		"nodejs-websocket": "*"
 	}
 }

@@ -6,7 +6,7 @@
 #include "card.cpp"
 #include "door.cpp"
 #include "reader.cpp"
-#include "door.cpp"
+#include "log.cpp"
 
 char *socket_path = "/tmp/ipc-test";
 

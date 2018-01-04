@@ -17,16 +17,16 @@
 			<nav>
 				<ul class="main-navigation">
 					<li>
-						<a href="#summary"> Summary</a>
+						<a href="#summary">Summary</a>
 					</li>
 					<li class="selected">
-						<a href="#home"> Home</a>
+						<a href="#home">Home</a>
 					</li>
 					<li>
-						<a href="#alerts"> Alerts</a>
+						<a class="alert" href="#alerts">Alerts</a>
 					</li>
 					<li>
-						<a href="#log"> Log</a>
+						<a href="#log">Log</a>
 					</li>
 				</ul>
 				<aside>

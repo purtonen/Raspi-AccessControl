@@ -4,6 +4,30 @@
 @import '_variables.scss';
 @import '_fonts.scss';
 
+// KEYFRAMES
+
+@keyframes shake {
+	2%, 18% {
+		transform: translate3d(-1px, 0, 0);
+	}
+
+	4%, 16% {
+		transform: translate3d(2px, 0, 0);
+	}
+
+	6%, 10%, 14% {
+		transform: translate3d(-4px, 0, 0);
+	}
+
+	8%, 12% {
+		transform: translate3d(4px, 0, 0);
+	}
+
+	20%{
+		transform: translate3d(0,0,0);
+	}
+}
+
 // STYLES
 
 body{
@@ -51,6 +75,7 @@ div#page{
 	}
 }
 a, a:visited{
+	outline: none;
 	text-decoration: none;
 	color: inherit;
 	&:hover{
@@ -129,7 +154,13 @@ nav{
 			margin-left: 10px;
 		}
 	}
-	a:before{
+	a.alert::before{
+		animation: shake 3s cubic-bezier(.36,.07,.19,.97) infinite;
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
+		perspective: 1000px;
+	}
+	a::before{
 		display: inline-block;
 		font-family: "Flaticon";
 		font-style: normal;
@@ -143,23 +174,24 @@ nav{
 		-webkit-font-smoothing: antialiased;
 		font-smoothing: antialiased;
 		font-size: 30px;
+		margin-right: 10px;
 	}
-	a[href='#summary']:before{
+	a[href='#summary']::before{
 		content: "\f108";
 	}
-	a[href='#home']:before{
+	a[href='#home']::before{
 		content: "\f18d";
 	}
-	a[href='#alerts']:before{
+	a[href='#alerts']::before{
 		content: "\f106";
 	}
-	a[href='#log']:before{
+	a[href='#log']::before{
 		content: "\f1de";
 	}
-	a[href='#settings']:before{
+	a[href='#settings']::before{
 		content: "\f215";
 	}
-	a[href='#exit']:before{
+	a[href='#exit']::before{
 		content: "\f15f";
 	}
 }

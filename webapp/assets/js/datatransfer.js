@@ -1,5 +1,6 @@
 $(document).ready(function () {
-	var socket = new WebSocket('ws://localhost:8001');
+	var serverAddress = location.host;
+	var socket = new WebSocket('ws://' + serverAddress + ':8001');
 
 	socket.onopen = function () {
 		console.log('WebSocket opened');

@@ -776,6 +776,18 @@ Creation date: 22/06/2016 15:41
 
 @font-face { font-family: Audimat; font-weight: bold; font-style: italic; src: url("/assets/fonts/audimat-bold-italic.otf") format("opentype"); }
 
+@-webkit-keyframes shake { 2%, 18% { -webkit-transform: translate3d(-1px, 0, 0); transform: translate3d(-1px, 0, 0); }
+  4%, 16% { -webkit-transform: translate3d(2px, 0, 0); transform: translate3d(2px, 0, 0); }
+  6%, 10%, 14% { -webkit-transform: translate3d(-4px, 0, 0); transform: translate3d(-4px, 0, 0); }
+  8%, 12% { -webkit-transform: translate3d(4px, 0, 0); transform: translate3d(4px, 0, 0); }
+  20% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); } }
+
+@keyframes shake { 2%, 18% { -webkit-transform: translate3d(-1px, 0, 0); transform: translate3d(-1px, 0, 0); }
+  4%, 16% { -webkit-transform: translate3d(2px, 0, 0); transform: translate3d(2px, 0, 0); }
+  6%, 10%, 14% { -webkit-transform: translate3d(-4px, 0, 0); transform: translate3d(-4px, 0, 0); }
+  8%, 12% { -webkit-transform: translate3d(4px, 0, 0); transform: translate3d(4px, 0, 0); }
+  20% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); } }
+
 body { margin: 0; background-color: #000; background-repeat: no-repeat; background-position: 50%; background-size: 500px; height: 100vh; overflow: hidden; font-family: 'Audimat'; color: #fff; background-image: url(/assets/img/lock_wp.jpg); }
 
 div#transition-layer { width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: transparent; -webkit-transition: .5s background ease-in-out; transition: .5s background ease-in-out; }
@@ -792,7 +804,7 @@ div#page.green { background: radial-gradient(circle, rgba(0, 0, 0, 0.35), rgba(0
 
 div#page.dimmed { background: rgba(0, 0, 0, 0.75); }
 
-a, a:visited { text-decoration: none; color: inherit; }
+a, a:visited { outline: none; text-decoration: none; color: inherit; }
 
 a:hover, a:visited:hover { text-shadow: 0 0 30px #fff; }
 
@@ -824,19 +836,21 @@ nav aside { position: absolute; top: 10px; right: 10px; }
 
 nav aside a { margin-left: 10px; }
 
-nav a:before { display: inline-block; font-family: "Flaticon"; font-style: normal; font-weight: normal; font-variant: normal; line-height: 1; text-decoration: inherit; text-rendering: optimizeLegibility; text-transform: none; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; font-smoothing: antialiased; font-size: 30px; }
+nav a.alert::before { -webkit-animation: shake 3s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite; animation: shake 3s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite; -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); -webkit-backface-visibility: hidden; backface-visibility: hidden; -webkit-perspective: 1000px; perspective: 1000px; }
 
-nav a[href='#summary']:before { content: "\f108"; }
+nav a::before { display: inline-block; font-family: "Flaticon"; font-style: normal; font-weight: normal; font-variant: normal; line-height: 1; text-decoration: inherit; text-rendering: optimizeLegibility; text-transform: none; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; font-smoothing: antialiased; font-size: 30px; margin-right: 10px; }
 
-nav a[href='#home']:before { content: "\f18d"; }
+nav a[href='#summary']::before { content: "\f108"; }
 
-nav a[href='#alerts']:before { content: "\f106"; }
+nav a[href='#home']::before { content: "\f18d"; }
 
-nav a[href='#log']:before { content: "\f1de"; }
+nav a[href='#alerts']::before { content: "\f106"; }
 
-nav a[href='#settings']:before { content: "\f215"; }
+nav a[href='#log']::before { content: "\f1de"; }
 
-nav a[href='#exit']:before { content: "\f15f"; }
+nav a[href='#settings']::before { content: "\f215"; }
+
+nav a[href='#exit']::before { content: "\f15f"; }
 
 footer { font-size: 16px; bottom: 0; background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(black)); background: linear-gradient(transparent, black); }
 
