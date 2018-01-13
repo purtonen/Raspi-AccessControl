@@ -1,0 +1,14 @@
+{
+  "name": "build",
+  "version": "1.0.0",
+  "description": "npm packages needed for building the webserver.js",
+  "main": "webserver.js",
+  "scripts": {
+    "test": "node webserver.js"
+  },
+  "author": "Eetu Purtonen",
+  "license": "ISC",
+  "devDependencies": {
+    "nodejs-websocket": "*"
+  }
+}

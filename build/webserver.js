@@ -4,9 +4,12 @@ var ws = require('nodejs-websocket');
 
 const socketPath = '/tmp/ipc-test';
 
-var unixSocketServer = net.createConnection(socketPath, function(){
-	console.log('connected');
-	unixSocketServer.write('HELLO!');
+var unixSocket = net.connect(socketPath, function(){
+	console.log('webserver.js connected to Unix socket');
+	unixSocket.write('HELLO!');
+});
+unixSocket.on('data', function(data){
+	console.log("webserver.js read data: " + data);
 });
 
 var webSocketServer = ws.createServer(function (conn) {
