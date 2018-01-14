@@ -15,7 +15,6 @@ unixSocket.on('data', function(data){
 
 var webSocketServer = ws.createServer(function (conn) {
 	console.log('webserver.js New websocket connection');
-	broadcast(webSocketServer, JSON.stringify(conn));
 	//console.log(util.inspect(conn, false, null))
 
 	conn.on('text', function (data) {
