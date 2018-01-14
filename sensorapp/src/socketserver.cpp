@@ -10,6 +10,8 @@
 #include <vector>
 
 #include "gpio.h"
+#include "gpioController.h"
+#include "socketWriter.h"
 // #include "card.h"
 // #include "door.h"
 // #include "reader.h"
@@ -56,25 +58,9 @@ void writeToSocket(int cl, const char *msg){
 	}
 }
 
-void listenToGPIO(int cl){
-	vector<GPIO> inputs;
-	cout << "GPIO listener" << endl;
-
-	GPIO* gpio4 = new GPIO("4");
-    gpio4->export_gpio();
-    usleep(50000);
-    gpio4->setdir_gpio("in");
-
-    string val;
-
+void listenToGPIO(GPIOController gc){
     while(1){
-        val = "NULL";
-        usleep(500000);
-        gpio4->getval_gpio(val);
-		if (val == "0") {
-			char *msg = "input noticed";
-			writeToSocket(cl, msg);
-		}
+        gc.readGPIO();
     }
 }
 
@@ -131,9 +117,18 @@ int main (int argc, char *argv[]) {
 
 	cout << "Connections done" << endl;
 
+	SocketWriter sw = SocketWriter(cl);
+	GPIOController gc = GPIOController(sw);
+	GPIO gpio4 = GPIO("4");
+    gpio4.export_gpio();
+    usleep(5000);
+    gpio4.setdir_gpio("in");
+
+	gc.addGPIO(gpio4);
+
 	// Start listeners
 	thread socketlistenerThread(listenToSocket, rc, cl);
-	thread gpioListenerThread(listenToGPIO, cl);
+	thread gpioListenerThread(listenToGPIO, gc);
 
 	socketlistenerThread.join();
 	gpioListenerThread.join();

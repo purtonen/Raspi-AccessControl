@@ -8,10 +8,12 @@ using namespace std;
 
 GPIO::GPIO() {
     this->gpionum = "4"; //GPIO4 is default
+    this->valueChanged = false;
 }
 
 GPIO::GPIO(string gnum) {
     this->gpionum = gnum; //Instatiate GPIO object for GPIO pin number "gnum"
+    this->valueChanged = false;
 }
 
 int GPIO::export_gpio() {
@@ -51,6 +53,7 @@ int GPIO::setdir_gpio(string dir) {
 
     setdirgpio << dir;  //write direction to direction file
     setdirgpio.close(); // close direction file
+    this->direction = dir;
     return 0;
 }
 
@@ -65,6 +68,12 @@ int GPIO::setval_gpio(string val) {
 
     setvalgpio << val;  //write value to value file
     setvalgpio.close(); // close value file
+
+    if (this->previousValue != val) {
+        this->valueChanged = true;
+        this->previousValue = val;
+    }
+
     return 0;
 }
 
@@ -86,10 +95,24 @@ int GPIO::getval_gpio(string &val) {
         val = "0";
 
     getvalgpio.close(); //close the value file
+
+    if (this->previousValue != val) {
+        this->valueChanged = true;
+        this->previousValue = val;
+    }
+
     return 0;
 }
 
 string GPIO::get_gpionum() {
 
     return this->gpionum;
+}
+
+bool GPIO::valueIsChanged(){
+    return this->valueChanged;
+}
+
+void GPIO::resetValueChanged(){
+    this->valueChanged = false;
 }

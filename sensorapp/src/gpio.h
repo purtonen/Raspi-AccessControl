@@ -18,8 +18,14 @@ public:
     int setval_gpio(std::string val); // Set GPIO Value (putput pins)
     int getval_gpio(std::string& val); // Get GPIO Value (input/ output pins)
     std::string get_gpionum(); // return the GPIO number associated with the instance of an object
+    void resetValueChanged();
+    bool valueIsChanged();
 private:
     std::string gpionum; // GPIO number associated with the instance of an object
+    std::string direction; // GPIO pin direction: input or output, "in" or "out"
+    std::string value;
+    std::string previousValue;
+    bool valueChanged;
 };
 
 #endif

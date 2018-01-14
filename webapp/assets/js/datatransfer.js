@@ -12,6 +12,7 @@ $(document).ready(function () {
 	};
 
 	socket.onmessage = function (event) {
+		console.log(event.data);
 		var data = JSON.parse(event.data);
 		console.log(data);
 	};
