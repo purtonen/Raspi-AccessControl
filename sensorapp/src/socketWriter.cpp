@@ -15,6 +15,8 @@ SocketWriter::SocketWriter(int cl){
 }
 
 void SocketWriter::writeToSocket(string msg){
+    // Small sleep time to avoid messages concatenating
+    usleep(50000);
     const char* msg_c = msg.c_str();
 	if (send(this->cl, msg_c, strlen(msg_c), 0) < 0) {
 		perror("ERROR writing to socket");
