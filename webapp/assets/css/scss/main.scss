@@ -34,6 +34,13 @@ video{
 	outline: none;
 }
 
+table{
+	th, td{
+		text-align: left;
+		padding: 0 20px;
+	}
+}
+
 body{
 	margin: 0;
 	background-color: #000;
@@ -80,11 +87,7 @@ div#page{
 }
 a, a:visited{
 	outline: none;
-	text-decoration: none;
 	color: inherit;
-	&:hover{
-		text-shadow: 0 0 30px #fff;
-	}
 }
 h1{
 	font-size: 50px;
@@ -129,6 +132,10 @@ nav, footer{
 			a{
 				display: inline-block;
 				width: 70%;
+				text-decoration: none;
+				&:hover{
+					text-shadow: 0 0 30px #fff;
+				}
 			}
 			&.selected{
 				font-weight: bold;

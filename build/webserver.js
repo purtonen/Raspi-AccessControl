@@ -4,16 +4,18 @@ var ws = require('nodejs-websocket');
 
 const socketPath = '/tmp/ipc-test';
 
-var unixSocket = net.connect(socketPath, function(){
+var unixSocket = net.createConnection(socketPath, function(){
 	console.log('webserver.js connected to Unix socket');
 	unixSocket.write('HELLO!');
 });
 unixSocket.on('data', function(data){
-	console.log("webserver.js read data: " + data);
+	data = data.toString();
+	broadcast(webSocketServer, data);
 });
 
 var webSocketServer = ws.createServer(function (conn) {
-	console.log('New connection: ');
+	console.log('webserver.js New websocket connection');
+	broadcast(webSocketServer, JSON.stringify(conn));
 	//console.log(util.inspect(conn, false, null))
 
 	conn.on('text', function (data) {

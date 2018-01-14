@@ -788,6 +788,10 @@ Creation date: 22/06/2016 15:41
   8%, 12% { -webkit-transform: translate3d(4px, 0, 0); transform: translate3d(4px, 0, 0); }
   20% { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); } }
 
+video { outline: none; }
+
+table th, table td { text-align: left; padding: 0 20px; }
+
 body { margin: 0; background-color: #000; background-repeat: no-repeat; background-position: 50%; background-size: 500px; height: 100vh; overflow: hidden; font-family: 'Audimat'; color: #fff; background-image: url(/assets/img/lock_wp.jpg); }
 
 div#transition-layer { width: 100%; height: 100%; position: absolute; top: 0; left: 0; background: transparent; -webkit-transition: .5s background ease-in-out; transition: .5s background ease-in-out; }
@@ -804,9 +808,7 @@ div#page.green { background: radial-gradient(circle, rgba(0, 0, 0, 0.35), rgba(0
 
 div#page.dimmed { background: rgba(0, 0, 0, 0.75); }
 
-a, a:visited { outline: none; text-decoration: none; color: inherit; }
-
-a:hover, a:visited:hover { text-shadow: 0 0 30px #fff; }
+a, a:visited { outline: none; color: inherit; }
 
 h1 { font-size: 50px; text-align: center; margin-top: 0; }
 
@@ -824,7 +826,9 @@ nav ul.main-navigation, nav ul.footer-navigation, footer ul.main-navigation, foo
 
 nav ul.main-navigation li, nav ul.footer-navigation li, footer ul.main-navigation li, footer ul.footer-navigation li { color: #fff; display: table-cell; vertical-align: middle; }
 
-nav ul.main-navigation li a, nav ul.footer-navigation li a, footer ul.main-navigation li a, footer ul.footer-navigation li a { display: inline-block; width: 70%; }
+nav ul.main-navigation li a, nav ul.footer-navigation li a, footer ul.main-navigation li a, footer ul.footer-navigation li a { display: inline-block; width: 70%; text-decoration: none; }
+
+nav ul.main-navigation li a:hover, nav ul.footer-navigation li a:hover, footer ul.main-navigation li a:hover, footer ul.footer-navigation li a:hover { text-shadow: 0 0 30px #fff; }
 
 nav ul.main-navigation li.selected, nav ul.footer-navigation li.selected, footer ul.main-navigation li.selected, footer ul.footer-navigation li.selected { font-weight: bold; }
 
