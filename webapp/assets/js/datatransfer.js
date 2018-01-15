@@ -1,20 +1,41 @@
+var socketConnected = false;
+
 $(document).ready(function () {
-	var serverAddress = location.host;
-	var socket = new WebSocket('ws://' + serverAddress + ':8001');
 
-	socket.onopen = function () {
-		console.log('WebSocket opened');
-		socket.send(JSON.stringify({ 'message': 'hi' }));
-	};
+	connectToSocket();
 
-	socket.onclose = function () {
-		console.log('WebSocket closed');
-	};
+	var retryWrapper = $('#retry-wrapper');
+	var retryButton = $('#retry-connection');
 
-	socket.onmessage = function (event) {
-		var data = JSON.parse(event.data);
-		console.log(data);
-	};
+	retryButton.click(connectToSocket);
+
+	function connectToSocket(){
+		var retryButton = $('#retry-connection');
+		retryButton.addClass('rotating');
+
+		var serverAddress = location.host;
+		var socket = new WebSocket('ws://' + serverAddress + ':8001');
+	
+		socket.onopen = function () {
+			retryButton.removeClass('rotating');
+			console.log('WebSocket opened');
+			socket.send(JSON.stringify({ 'message': 'hi' }));
+			socketConnected = true;
+			retryWrapper.hide();
+		};
+	
+		socket.onclose = function () {
+			retryButton.removeClass('rotating');
+			console.log('WebSocket closed');
+			socketConnected = false;
+			retryWrapper.show();
+		};
+	
+		socket.onmessage = function (event) {
+			var data = JSON.parse(event.data);
+			console.log(data);
+		};
+	}
 
 });
 

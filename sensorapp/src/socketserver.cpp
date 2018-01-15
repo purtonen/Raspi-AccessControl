@@ -22,7 +22,7 @@ using namespace std;
 char *socketPath = "/tmp/ipc-test";
 
 void msgInterpreter(string msg){
-	cout << "interpreter: " << msg << endl;
+	cout << "socketserver: interpreter: " << msg << endl;
 }
 
 void listenToSocket(int rc, int cl){
@@ -65,6 +65,8 @@ void listenToGPIO(GPIOController gc){
 }
 
 int main (int argc, char *argv[]) {
+	usleep(50000);
+	cout << " " << endl; //clear bash
 
 	struct sockaddr_un addr;
 	int fd, cl, rc;
@@ -104,7 +106,7 @@ int main (int argc, char *argv[]) {
 			continue;
 		}
 
-		cout << "Connection established" << endl;
+		cout << "socketserver: Connection established" << endl;
 
 		connected = true;
 
@@ -115,7 +117,7 @@ int main (int argc, char *argv[]) {
 			
 	}
 
-	cout << "Connections done" << endl;
+	cout << "socketserver: Connections done" << endl;
 
 	SocketWriter sw = SocketWriter(cl);
 	GPIOController gc = GPIOController(sw);

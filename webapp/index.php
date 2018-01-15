@@ -13,6 +13,13 @@
 <body>
 	<div id="transition-layer"></div>
 	<div id="page">
+		<div id="retry-wrapper">
+			<div class="retry-content">
+				<span><i class="fi fi-warning"></i> Not connected to server</span>
+				<a id="retry-connection"><i class="fi fi-repeat-1"></i></a>
+				<span class="small">Retry</span>
+			</div>
+		</div>
 		<header>
 			<nav>
 				<ul class="main-navigation">
