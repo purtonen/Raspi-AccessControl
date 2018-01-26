@@ -1,5 +1,6 @@
-#ifndef Log_H
-#define Log_H
+#ifndef LOG_H
+#define LOG_H
+
 #include <string>
 
 class Log{
@@ -9,7 +10,7 @@ class Log{
 public:
 	Log();
 	Log(std::string description);
-	string toString();
+	std::string toString();
 };
 
 #endif

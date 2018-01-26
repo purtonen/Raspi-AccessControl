@@ -1,14 +1,16 @@
-#ifndef Card_H
-#define Card_H
+#ifndef CARD_H
+#define CARD_H
+
 #include <string>
 
 class Card{
 	int id;
 	std::string cardholder;
+	bool isOpen;
 
 public:
 	Card();
-	string getCardholder();
+	std::string getCardholder();
 	void setCardholder(std::string cardholder);
 };
 

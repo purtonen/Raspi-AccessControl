@@ -1,5 +1,7 @@
 #include "log.h"
 
+using namespace std;
+
 Log::Log(){
 	
 }

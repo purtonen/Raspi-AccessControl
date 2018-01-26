@@ -1,2 +1,0 @@
-./socketserver &
-node webserver.js &

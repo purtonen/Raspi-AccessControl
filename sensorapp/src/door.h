@@ -1,10 +1,5 @@
-#ifndef Door_H
-#define Door_H
-
-#include <vector>
-using namespace std;
-
-class Card;
+#ifndef DOOR_H
+#define DOOR_H
 
 class Door{
 	int id;
