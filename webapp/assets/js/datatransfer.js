@@ -1,6 +1,6 @@
 var socketConnected = false;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
 	connectToSocket();
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
 		var serverAddress = location.host;
 		var socket = new WebSocket('ws://' + serverAddress + ':8001');
 	
-		socket.onopen = function () {
+		socket.onopen = function() {
 			retryButton.removeClass('rotating');
 			console.log('WebSocket opened');
 			socket.send(JSON.stringify({ 'message': 'hi' }));
@@ -24,7 +24,7 @@ $(document).ready(function () {
 			retryWrapper.hide();
 		};
 	
-		socket.onclose = function () {
+		socket.onclose = function() {
 			retryButton.removeClass('rotating');
 			console.log('WebSocket closed');
 			socketConnected = false;
@@ -39,6 +39,6 @@ $(document).ready(function () {
 
 });
 
-$(document).on('submit', 'form', function (e) {
+$(document).on('submit', 'form', function(e) {
 	e.preventDefault();
 });

@@ -1,3 +1,12 @@
+/*	This is the Node.js intermediate between the frontend and the sensorapp.
+*	Main purpose of this app is to deliver messages between frontend
+*	and backend. 
+*	This app connects to a Unix socket created by the sensorapp, creates
+*	its own websocket for the frontend to connect to, and passes data
+*	along these pipelines. All data is transferred via JSON strings. 
+*/
+
+
 const util = require('util');
 var net = require('net');
 var ws = require('nodejs-websocket');
@@ -31,24 +40,31 @@ var webSocketServer = ws.createServer(function (conn) {
 
 }).listen(8001);
 
+// Broadcast a message to all connected clients (frontend)
 function broadcast(webSocketServer, msg) {
 	webSocketServer.connections.forEach(function (conn) {
 		conn.sendText(msg);
 	});
 }
 
+// Handle all incoming messages
 function messageHandler(msg){
 
 }
 
+// Connect to the Unix socket created by the sensorapp
 function connectToSocket(){
 	
 	var unixSocket = net.createConnection(socketPath, function(){
 		console.log('webserver.js: Connected to Unix socket');
 		unixSocket.write('HELLO!');
 	});
+
+	// Catch all connection errors and recursively try again in intervals
 	unixSocket.on('error', function(e){
+		// Make each reconnect timeout 100ms longer than the previous one
 		reconnectTimeout += 100;
+		// If timeout grovs beyond a threshold, stop trying and exit
 		if(reconnectTimeout > 10000){
 			console.log('webserver.js: socket connection timeout, exiting...');
 			process.exit();
@@ -57,7 +73,9 @@ function connectToSocket(){
 			setTimeout(connectToSocket, reconnectTimeout);
 		}
 		
-	})
+	});
+
+	// Event for catching incoming data from sensorapp
 	unixSocket.on('data', function(data){
 		data = data.toString();
 		broadcast(webSocketServer, data);

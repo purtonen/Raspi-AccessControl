@@ -29,7 +29,7 @@ npm:
 	npm install
 	
 clean:
-	rm $(PROJECT) $(OBJDIR) -Rf
+	rm $(OBJDIR) -rf
 	
 buildrepo:
 	@$(call make-repo)

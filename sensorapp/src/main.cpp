@@ -12,10 +12,10 @@
 #include "gpio.h"
 #include "gpioController.h"
 #include "socketWriter.h"
-// #include "card.h"
-// #include "door.h"
-// #include "reader.h"
-// #include "log.h"
+#include "card.h"
+#include "door.h"
+#include "reader.h"
+#include "log.h"
 
 using namespace std;
 
