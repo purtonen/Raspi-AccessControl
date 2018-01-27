@@ -1,1 +1,1 @@
-killall socketserver node
+killall sensorapp node

@@ -1,3 +1,4 @@
+// Std libraries
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -9,6 +10,7 @@
 #include <cstring>
 #include <vector>
 
+// Local headers
 #include "gpio.h"
 #include "gpioController.h"
 #include "socketWriter.h"
@@ -19,51 +21,15 @@
 
 using namespace std;
 
+// Path to the Unix socket to be used for inter-process-communication (ipc)
 char *socketPath = "/tmp/ipc-test";
 
-void msgInterpreter(string msg){
-	cout << "socketserver: interpreter: " << msg << endl;
-}
+// Functions
+void msgInterpreter(string msg); // Interpret incoming JSON data and call the neccessary functions
+void listenToSocket(int rc, int cl); // Thread: Continuously read the Unix socket and call msgInterpreter on message
+void listenToGPIO(GPIOController gc); // Thread: Continuously read the gpio controller and call socketwriter
 
-void listenToSocket(int rc, int cl){
-	char buf[100];
-
-	while(1){
-		while ((rc = read(cl, buf, sizeof(buf))) > 0) {
-			string msg(buf, rc);
-			msgInterpreter(msg);
-		}
-
-		if (rc == -1) {
-			perror("read");
-			exit(-1);
-		} else if (rc == 0) {
-			printf("EOF\n");
-			close(cl);
-		}
-	}
-}
-
-void writeToSocket(int cl, const char *msg){
-	string date = R"(testdate)";
-	string str = R"({
-		"logEntry":{
-			"date":")" + date + R"("
-		}
-	})";
-	msg = str.c_str();
-	if (send(cl, msg, strlen(msg), 0) < 0) {
-		perror("ERROR writing to socket");
-		exit(-1);
-	}
-}
-
-void listenToGPIO(GPIOController gc){
-    while(1){
-        gc.readGPIO();
-    }
-}
-
+// Main function
 int main (int argc, char *argv[]) {
 	usleep(50000);
 	cout << " " << endl; //clear bash
@@ -136,4 +102,34 @@ int main (int argc, char *argv[]) {
 	gpioListenerThread.join();
 
 	return 0;
+}
+
+
+void msgInterpreter(string msg){
+	cout << "socketserver: interpreter: " << msg << endl;
+}
+
+void listenToSocket(int rc, int cl){
+	char buf[100];
+
+	while(1){
+		while ((rc = read(cl, buf, sizeof(buf))) > 0) {
+			string msg(buf, rc);
+			msgInterpreter(msg);
+		}
+
+		if (rc == -1) {
+			perror("read");
+			exit(-1);
+		} else if (rc == 0) {
+			printf("EOF\n");
+			close(cl);
+		}
+	}
+}
+
+void listenToGPIO(GPIOController gc){
+    while(1){
+        gc.readGPIO();
+    }
 }
