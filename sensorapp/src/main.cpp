@@ -32,7 +32,7 @@ void listenToGPIO(GPIOController gc); // Thread: Continuously read the gpio cont
 // Main function
 int main (int argc, char *argv[]) {
 	usleep(50000);
-	cout << " " << endl; //clear bash
+	cout << " " << endl; // clear bash output
 
 	struct sockaddr_un addr;
 	int fd, cl, rc;

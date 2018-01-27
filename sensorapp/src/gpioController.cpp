@@ -48,7 +48,7 @@ void GPIOController::readGPIO(){
 	}
 	
 }
-void GPIOController::writeToGPIO(GPIO gpio, std::string value){
+void GPIOController::writeToGPIO(GPIO gpio, string value){
 
 }
 
