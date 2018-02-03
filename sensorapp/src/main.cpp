@@ -20,6 +20,7 @@
 #include "door.h"
 #include "reader.h"
 #include "log.h"
+#include "doorController.h"
 
 using namespace std;
 
@@ -27,14 +28,16 @@ using namespace std;
 const char *socketPath = "/tmp/ipc-test";
 const string availableGPIO[] = {"2","3","4","17","27","22","10","9","11","14","15","18","23","24","25","8","7"};
 
-// Variables
-map<int, Door*> doors;
+// Main variables
+SocketWriter sw;
+GPIOController gc;
+DoorController dc;
 
 // Functions
 void msgInterpreter(string msg); // Interpret incoming JSON data and call the neccessary functions
 void listenToSocket(int rc, int cl); // Thread: Continuously read the Unix socket and call msgInterpreter on message
-void listenToGPIO(GPIOController gc); // Thread: Continuously read the gpio controller and call socketwriter
-void initGPIO(GPIOController &gc); // Initialize the GPIO and add them to the GPIO controller
+void listenToGPIO(); // Thread: Continuously read the gpio controller and call socketwriter
+void initGPIO(); // Initialize the GPIO and add them to the GPIO controller
 
 // Main function
 int main (int argc, char *argv[]) {
@@ -93,13 +96,13 @@ int main (int argc, char *argv[]) {
 	cout << "socketserver: Connections done" << endl;
 
 	// Initialize the socketwriter and GPIO controllers
-	SocketWriter sw = SocketWriter(cl);
-	GPIOController gc = GPIOController(sw);
-	initGPIO(gc);
+	sw = SocketWriter(cl);
+	gc = GPIOController(sw);
+	initGPIO();
 
 	// Start listeners
 	thread socketlistenerThread(listenToSocket, rc, cl);
-	thread gpioListenerThread(listenToGPIO, gc);
+	thread gpioListenerThread(listenToGPIO);
 
 	socketlistenerThread.join();
 	gpioListenerThread.join();
@@ -124,22 +127,17 @@ void msgInterpreter(string msg){
 		int targetDoorId;
 		split >> targetDoorId;
 		if(splitStrings[0] == "door" && splitStrings[2] == "open"){
-			if(doors.find(targetDoorId) != doors.end()){
-				doors[targetDoorId]->openDoor();
-			} else {
+			if(dc.openDoor(targetDoorId) == -1){
 				cout << "socketserver: interpreter: door id not found" << endl;
 			}
 		} else if(splitStrings[0] == "door" && splitStrings[2] == "close"){
-			if(doors.find(targetDoorId) != doors.end()){
-				doors[targetDoorId]->closeDoor();
-			} else {
+			if(dc.closeDoor(targetDoorId) == -1){
 				cout << "socketserver: interpreter: door id not found" << endl;
 			}
 		}
 	} else {
 		cout << "socketserver: interpreter: command not valid" << endl;
 	}
-	
 }
 
 void listenToSocket(int rc, int cl){
@@ -161,13 +159,13 @@ void listenToSocket(int rc, int cl){
 	}
 }
 
-void listenToGPIO(GPIOController gc){
+void listenToGPIO(){
     while(1){
         gc.readGPIO();
     }
 }
 
-void initGPIO(GPIOController &gc){
+void initGPIO(){
 	GPIO gpio4 = GPIO("4");
     gpio4.export_gpio();
     usleep(5000);
@@ -182,7 +180,10 @@ void initGPIO(GPIOController &gc){
 	gc.addGPIO(gpio18);
 
 	Door* door1 = new Door(true, gpio18, gc);
-	doors[1] = door1;
+
+	DoorController* dc = new DoorController();
+	dc->initDoors();
+
 	door1->closeDoor();
 
 	//system("raspivid -vf -o $(date +%s).h264 -t 999999999");

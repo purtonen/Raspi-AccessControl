@@ -2,6 +2,7 @@
 #define READER_H
 
 #include <vector>
+
 #include "door.h"
 #include "card.h"
 

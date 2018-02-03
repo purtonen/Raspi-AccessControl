@@ -1,4 +1,5 @@
 #include "reader.h"
+#include "door.h"
 
 Reader::Reader(){
 	this->running = false;

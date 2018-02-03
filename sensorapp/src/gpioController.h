@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+
 #include "gpio.h"
 #include "socketWriter.h"
 
@@ -10,6 +11,8 @@
  * Purpose: Wrap all GPIO objects/pins to one class for reading and writing
  */
 class GPIOController {
+    std::vector<GPIO> gpios;
+    SocketWriter sw;
 public:
     GPIOController();
     GPIOController(SocketWriter sw);
@@ -19,9 +22,6 @@ public:
     void readGPIO();
     void writeToGPIO(GPIO &gpio, std::string value);
     void initController();
-private:
-    std::vector<GPIO> gpios;
-    SocketWriter sw;
 };
 
 #endif
