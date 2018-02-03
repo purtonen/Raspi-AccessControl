@@ -2,10 +2,11 @@ var socketConnected = false;
 
 $(document).ready(function() {
 
-	connectToSocket();
+	var socket = connectToSocket();
 
 	var retryWrapper = $('#retry-wrapper');
 	var retryButton = $('#retry-connection');
+	var doorButton = $('.door-button');
 
 	retryButton.click(connectToSocket);
 
@@ -22,6 +23,14 @@ $(document).ready(function() {
 			socket.send(JSON.stringify({ 'message': 'hi' }));
 			socketConnected = true;
 			retryWrapper.hide();
+
+			doorButton.click(function () {
+				var id = $(this).attr('data-id');
+				var command = $(this).attr('data-command');
+				var msg = "door|" + id + "|" + command;
+				console.log(msg);
+				socket.send(msg);
+			});
 		};
 	
 		socket.onclose = function() {
@@ -35,6 +44,8 @@ $(document).ready(function() {
 			var data = JSON.parse(event.data);
 			console.log(data);
 		};
+
+		return socket;
 	}
 
 });

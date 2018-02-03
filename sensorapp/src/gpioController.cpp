@@ -49,7 +49,7 @@ void GPIOController::readGPIO(){
 	
 }
 void GPIOController::writeToGPIO(GPIO &gpio, string value){
-
+	gpio.setval_gpio(value);
 }
 
 void GPIOController::initController(){

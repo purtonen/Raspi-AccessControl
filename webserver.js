@@ -17,15 +17,14 @@ const socketPath = '/tmp/ipc-test';
 
 console.log(" ");
 
-connectToSocket();
+var unixSocket = connectToSocket();
 
 var webSocketServer = ws.createServer(function (conn) {
 	console.log('webserver.js: New websocket connection');
 	//console.log(util.inspect(conn, false, null))
 
 	conn.on('text', function (data) {
-		data = JSON.parse(data);
-		messageHandler(data);
+		clientMessageHandler(data);
 		broadcast(webSocketServer, JSON.stringify({'message': 'hello broadcast'}));
 	});
 
@@ -47,9 +46,9 @@ function broadcast(webSocketServer, msg) {
 	});
 }
 
-// Handle all incoming messages
-function messageHandler(msg){
-
+// Handle all incoming messages from client (front end)
+function clientMessageHandler(msg){
+	unixSocket.write(msg);
 }
 
 // Connect to the Unix socket created by the sensorapp
@@ -80,5 +79,7 @@ function connectToSocket(){
 		data = data.toString();
 		broadcast(webSocketServer, data);
 	});
+
+	return unixSocket;
 
 }

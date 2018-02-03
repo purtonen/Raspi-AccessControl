@@ -9,6 +9,8 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <sstream>
+#include <map>
 
 // Local headers
 #include "gpio.h"
@@ -21,14 +23,18 @@
 
 using namespace std;
 
-// Path to the Unix socket to be used for inter-process-communication (ipc)
-char *socketPath = "/tmp/ipc-test";
+// Constants
+const char *socketPath = "/tmp/ipc-test";
+const string availableGPIO[] = {"2","3","4","17","27","22","10","9","11","14","15","18","23","24","25","8","7"};
+
+// Variables
+map<int, Door*> doors;
 
 // Functions
 void msgInterpreter(string msg); // Interpret incoming JSON data and call the neccessary functions
 void listenToSocket(int rc, int cl); // Thread: Continuously read the Unix socket and call msgInterpreter on message
 void listenToGPIO(GPIOController gc); // Thread: Continuously read the gpio controller and call socketwriter
-void initGPIO(GPIOController &gc); // Initialize the GPIO and GPIO controller
+void initGPIO(GPIOController &gc); // Initialize the GPIO and add them to the GPIO controller
 
 // Main function
 int main (int argc, char *argv[]) {
@@ -98,17 +104,42 @@ int main (int argc, char *argv[]) {
 	socketlistenerThread.join();
 	gpioListenerThread.join();
 
-	while(true){
-
-	}
-
 	return 0;
 }
 // End main function
 
 
 void msgInterpreter(string msg){
-	cout << "socketserver: interpreter: " << msg << endl;
+	vector<string> splitStrings;
+	stringstream ss(msg);
+    string item;
+    while (getline(ss, item, '|')) {
+        splitStrings.push_back(item);
+    }
+	for(int i=0; i<splitStrings.size(); i++){
+		cout << "socketserver: interpreter: " << splitStrings[i] << endl;
+	}
+	if(splitStrings.size() > 2){
+		stringstream split(splitStrings[1]);
+		int targetDoorId;
+		split >> targetDoorId;
+		if(splitStrings[0] == "door" && splitStrings[2] == "open"){
+			if(doors.find(targetDoorId) != doors.end()){
+				doors[targetDoorId]->openDoor();
+			} else {
+				cout << "socketserver: interpreter: door id not found" << endl;
+			}
+		} else if(splitStrings[0] == "door" && splitStrings[2] == "close"){
+			if(doors.find(targetDoorId) != doors.end()){
+				doors[targetDoorId]->closeDoor();
+			} else {
+				cout << "socketserver: interpreter: door id not found" << endl;
+			}
+		}
+	} else {
+		cout << "socketserver: interpreter: command not valid" << endl;
+	}
+	
 }
 
 void listenToSocket(int rc, int cl){
@@ -149,4 +180,8 @@ void initGPIO(GPIOController &gc){
 
 	gc.addGPIO(gpio4);
 	gc.addGPIO(gpio18);
+
+	Door* door1 = new Door(true, gpio18, gc);
+	doors[1] = door1;
+	door1->closeDoor();
 }

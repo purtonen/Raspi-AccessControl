@@ -4,9 +4,11 @@ Door::Door(){
 	open = true;
 }
 
-Door::Door(bool isControllable){
+Door::Door(bool isControllable, GPIO &gpio, GPIOController &gc){
 	this->open = true;
 	this->controllable = isControllable;
+	this->gpio = gpio;
+	this->gc = gc;
 }
 
 bool Door::isOpen(){
@@ -19,8 +21,10 @@ bool Door::isControllable(){
 
 void Door::openDoor(){
 	open = true;
+	this->gc.writeToGPIO(this->gpio, "0");
 }
 
 void Door::closeDoor(){
 	open = false;
+	this->gc.writeToGPIO(this->gpio, "1");
 }
