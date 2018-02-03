@@ -184,4 +184,6 @@ void initGPIO(GPIOController &gc){
 	Door* door1 = new Door(true, gpio18, gc);
 	doors[1] = door1;
 	door1->closeDoor();
+
+	//system("raspivid -vf -o $(date +%s).h264 -t 999999999");
 }
