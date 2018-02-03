@@ -17,10 +17,10 @@ GPIOController::GPIOController(vector<GPIO> gpios, SocketWriter sw){
 	this->sw = sw;
 }
 
-void GPIOController::addGPIO(GPIO gpio){
+void GPIOController::addGPIO(GPIO &gpio){
 	this->gpios.push_back(gpio);
 }
-void GPIOController::removeGPIO(GPIO gpio){
+void GPIOController::removeGPIO(GPIO &gpio){
 	// TODO
 }
 void GPIOController::readGPIO(){
@@ -48,7 +48,7 @@ void GPIOController::readGPIO(){
 	}
 	
 }
-void GPIOController::writeToGPIO(GPIO gpio, string value){
+void GPIOController::writeToGPIO(GPIO &gpio, string value){
 
 }
 

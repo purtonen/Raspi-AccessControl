@@ -14,10 +14,10 @@ public:
     GPIOController();
     GPIOController(SocketWriter sw);
     GPIOController(std::vector<GPIO> gpios, SocketWriter sw);
-    void addGPIO(GPIO gpio);
-    void removeGPIO(GPIO gpio);
+    void addGPIO(GPIO &gpio);
+    void removeGPIO(GPIO &gpio);
     void readGPIO();
-    void writeToGPIO(GPIO gpio, std::string value);
+    void writeToGPIO(GPIO &gpio, std::string value);
     void initController();
 private:
     std::vector<GPIO> gpios;

@@ -28,6 +28,7 @@ char *socketPath = "/tmp/ipc-test";
 void msgInterpreter(string msg); // Interpret incoming JSON data and call the neccessary functions
 void listenToSocket(int rc, int cl); // Thread: Continuously read the Unix socket and call msgInterpreter on message
 void listenToGPIO(GPIOController gc); // Thread: Continuously read the gpio controller and call socketwriter
+void initGPIO(GPIOController &gc); // Initialize the GPIO and GPIO controller
 
 // Main function
 int main (int argc, char *argv[]) {
@@ -85,14 +86,10 @@ int main (int argc, char *argv[]) {
 
 	cout << "socketserver: Connections done" << endl;
 
+	// Initialize the socketwriter and GPIO controllers
 	SocketWriter sw = SocketWriter(cl);
 	GPIOController gc = GPIOController(sw);
-	GPIO gpio4 = GPIO("4");
-    gpio4.export_gpio();
-    usleep(5000);
-    gpio4.setdir_gpio("in");
-
-	gc.addGPIO(gpio4);
+	initGPIO(gc);
 
 	// Start listeners
 	thread socketlistenerThread(listenToSocket, rc, cl);
@@ -100,6 +97,10 @@ int main (int argc, char *argv[]) {
 
 	socketlistenerThread.join();
 	gpioListenerThread.join();
+
+	while(true){
+
+	}
 
 	return 0;
 }
@@ -133,4 +134,19 @@ void listenToGPIO(GPIOController gc){
     while(1){
         gc.readGPIO();
     }
+}
+
+void initGPIO(GPIOController &gc){
+	GPIO gpio4 = GPIO("4");
+    gpio4.export_gpio();
+    usleep(5000);
+    gpio4.setdir_gpio("in");
+
+	GPIO gpio18 = GPIO("18");
+    gpio18.export_gpio();
+    usleep(5000);
+    gpio18.setdir_gpio("out");
+
+	gc.addGPIO(gpio4);
+	gc.addGPIO(gpio18);
 }

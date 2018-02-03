@@ -14,5 +14,9 @@
 		"gulp-compass": "*",
 		"gulp-sourcemaps": "^1.5.2",
 		"nodejs-websocket": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/purtonen/Raspi-AccessControl"
 	}
 }
