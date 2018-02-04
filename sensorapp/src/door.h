@@ -1,19 +1,18 @@
 #ifndef DOOR_H
 #define DOOR_H
 
-#include "gpio.h"
 #include "gpioController.h"
 
 class Door{
-	int id;
-	bool open, controllable;
-	GPIO gpio;
-	GPIOController gc;
+	int id, gpioIn, gpioOut;;
+	bool _isOpen, _isControllable, _hasSensor;
+	GPIOController* gc;
 public:
 	Door();
-	Door(bool isControllable, GPIO &gpio, GPIOController &gc);
+	Door(int gpioIn, int gpioOut, GPIOController* gc);
 	bool isOpen();
 	bool isControllable();
+	bool hasSensor();
 	void closeDoor();
 	void openDoor();
 };

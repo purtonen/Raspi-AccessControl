@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <ctime>
 #include "gpioController.h"
+#include "gpio.h"
 
 using namespace std;
 
@@ -12,25 +13,30 @@ GPIOController::GPIOController(SocketWriter sw){
 	this->sw = sw;
 }
 
-GPIOController::GPIOController(vector<GPIO> gpios, SocketWriter sw){
+GPIOController::GPIOController(map<int, GPIO> gpios, SocketWriter sw){
 	this->gpios = gpios;
 	this->sw = sw;
 }
 
-void GPIOController::addGPIO(GPIO &gpio){
-	this->gpios.push_back(gpio);
+void GPIOController::addGPIO(int gpioId, string direction){
+	GPIO gpio = GPIO(to_string(gpioId));
+    gpio.export_gpio();
+    usleep(5000);
+    gpio.setdir_gpio(direction);
+	this->gpios[gpioId] = gpio;
+	usleep(5000);
 }
-void GPIOController::removeGPIO(GPIO &gpio){
+void GPIOController::removeGPIO(int gpioId){
 	// TODO
 }
 void GPIOController::readGPIO(){
 
 	string val;
 
-	for (vector<GPIO>::iterator it = this->gpios.begin(); it != this->gpios.end(); ++it){
+	for (auto it=gpios.begin(); it!=gpios.end(); ++it){
 		val = "NULL";
-		it->getval_gpio(val);
-		if (it->valueIsChanged()) {
+		it->second.getval_gpio(val);
+		if (it->second.valueIsChanged()) {
 			time_t timestamp = time(nullptr);
 			string date = to_string(timestamp);
 			string date_r = R"()" + date + R"()";
@@ -43,13 +49,13 @@ void GPIOController::readGPIO(){
 				}
 			})";
 			this->sw.writeToSocket(msg);
-			it->resetValueChanged();
+			it->second.resetValueChanged();
 		}
 	}
 	
 }
-void GPIOController::writeToGPIO(GPIO &gpio, string value){
-	gpio.setval_gpio(value);
+void GPIOController::writeToGPIO(int gpioId, string value){
+	gpios[gpioId].setval_gpio(value);
 }
 
 void GPIOController::initController(){

@@ -25,12 +25,12 @@
 using namespace std;
 
 // Constants
-const char *socketPath = "/tmp/ipc-test";
+const char *socketPath = (char*)"/tmp/ipc-test";
 const string availableGPIO[] = {"2","3","4","17","27","22","10","9","11","14","15","18","23","24","25","8","7"};
 
 // Main variables
 SocketWriter sw;
-GPIOController gc;
+GPIOController* gc;
 DoorController dc;
 
 // Functions
@@ -46,7 +46,7 @@ int main (int argc, char *argv[]) {
 
 	struct sockaddr_un addr;
 	int fd, cl, rc;
-	char *msg = "Hello back";
+	char* msg = (char*)"Hello back";
 	bool connected = false;
 
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
@@ -95,10 +95,13 @@ int main (int argc, char *argv[]) {
 
 	cout << "socketserver: Connections done" << endl;
 
-	// Initialize the socketwriter and GPIO controllers
+	// Initialize the socketwriter and Door controller
 	sw = SocketWriter(cl);
-	gc = GPIOController(sw);
-	initGPIO();
+	gc = new GPIOController(sw);
+	dc = DoorController(gc);
+	dc.initDoors();
+
+	dc.openDoor(18);
 
 	// Start listeners
 	thread socketlistenerThread(listenToSocket, rc, cl);
@@ -119,8 +122,8 @@ void msgInterpreter(string msg){
     while (getline(ss, item, '|')) {
         splitStrings.push_back(item);
     }
-	for(int i=0; i<splitStrings.size(); i++){
-		cout << "socketserver: interpreter: " << splitStrings[i] << endl;
+	for(auto it = splitStrings.begin(), end = splitStrings.end(); it != end; ++it){
+		cout << "socketserver: interpreter: " << *it << endl;
 	}
 	if(splitStrings.size() > 2){
 		stringstream split(splitStrings[1]);
@@ -128,11 +131,11 @@ void msgInterpreter(string msg){
 		split >> targetDoorId;
 		if(splitStrings[0] == "door" && splitStrings[2] == "open"){
 			if(dc.openDoor(targetDoorId) == -1){
-				cout << "socketserver: interpreter: door id not found" << endl;
+				cout << "socketserver: interpreter: door " << targetDoorId << " not controllable" << endl;
 			}
 		} else if(splitStrings[0] == "door" && splitStrings[2] == "close"){
 			if(dc.closeDoor(targetDoorId) == -1){
-				cout << "socketserver: interpreter: door id not found" << endl;
+				cout << "socketserver: interpreter: door " << targetDoorId << " not controllable" << endl;
 			}
 		}
 	} else {
@@ -161,30 +164,30 @@ void listenToSocket(int rc, int cl){
 
 void listenToGPIO(){
     while(1){
-        gc.readGPIO();
+        gc->readGPIO();
     }
 }
 
 void initGPIO(){
-	GPIO gpio4 = GPIO("4");
-    gpio4.export_gpio();
-    usleep(5000);
-    gpio4.setdir_gpio("in");
+	// GPIO gpio4 = GPIO("4");
+    // gpio4.export_gpio();
+    // usleep(5000);
+    // gpio4.setdir_gpio("in");
 
-	GPIO gpio18 = GPIO("18");
-    gpio18.export_gpio();
-    usleep(5000);
-    gpio18.setdir_gpio("out");
+	// GPIO gpio18 = GPIO("18");
+    // gpio18.export_gpio();
+    // usleep(5000);
+    // gpio18.setdir_gpio("out");
 
-	gc.addGPIO(gpio4);
-	gc.addGPIO(gpio18);
+	// gc.addGPIO(gpio4);
+	// gc.addGPIO(gpio18);
 
-	Door* door1 = new Door(true, gpio18, gc);
+	// Door* door1 = new Door(0, gpio18, gc);
 
-	DoorController* dc = new DoorController();
-	dc->initDoors();
+	// DoorController* dc = new DoorController();
+	// dc->initDoors();
 
-	door1->closeDoor();
+	// door1->closeDoor();
 
 	//system("raspivid -vf -o $(date +%s).h264 -t 999999999");
 }

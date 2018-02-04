@@ -11,11 +11,11 @@ SRCDIR = sensorapp/src
 BINDIR = sensorapp/bin
 
 # Libraries
-LIBS = -pthread
+LIBS = -pthread -lsqlite3
 
 # Files and folders
 SRCS    = $(shell find $(SRCDIR) -name '*.cpp')
-SRCDIRS = $(shell find . -name '*.cpp' | dirname {} | sort | uniq | sed 's/\/$(SRCDIR)//g' )
+#SRCDIRS = $(shell find . -name '*.cpp' | dirname {} | sort | uniq | sed 's/\/$(SRCDIR)//g' )
 OBJS    = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCS))
 
 # Targets

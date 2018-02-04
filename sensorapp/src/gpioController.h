@@ -2,7 +2,7 @@
 #define GPIOCONTROLLER_H
 
 #include <string>
-#include <vector>
+#include <map>
 
 #include "gpio.h"
 #include "socketWriter.h"
@@ -11,16 +11,16 @@
  * Purpose: Wrap all GPIO objects/pins to one class for reading and writing
  */
 class GPIOController {
-    std::vector<GPIO> gpios;
+    std::map<int, GPIO> gpios;
     SocketWriter sw;
 public:
     GPIOController();
     GPIOController(SocketWriter sw);
-    GPIOController(std::vector<GPIO> gpios, SocketWriter sw);
-    void addGPIO(GPIO &gpio);
-    void removeGPIO(GPIO &gpio);
+    GPIOController(std::map<int, GPIO> gpios, SocketWriter sw);
+    void addGPIO(int gpioId, std::string direction);
+    void removeGPIO(int gpioId);
     void readGPIO();
-    void writeToGPIO(GPIO &gpio, std::string value);
+    void writeToGPIO(int gpioId, std::string value);
     void initController();
 };
 
