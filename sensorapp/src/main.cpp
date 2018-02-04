@@ -100,8 +100,9 @@ int main (int argc, char *argv[]) {
 	gc = new GPIOController(sw);
 	dc = DoorController(gc);
 	dc.initDoors();
-
 	dc.openDoor(18);
+
+	gc->addGPIO(4, "in");
 
 	// Start listeners
 	thread socketlistenerThread(listenToSocket, rc, cl);
