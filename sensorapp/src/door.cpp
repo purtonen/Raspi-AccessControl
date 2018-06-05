@@ -7,7 +7,7 @@ using namespace std;
 Door::Door() {
 	this->_isOpen = true;
 	this->_isControllable = false;
-	this->_hasSensor = false;
+	this->_hasButton = false;
 }
 
 Door::Door(int gpioIn, int gpioOut, GPIOController* gc) {
@@ -15,8 +15,14 @@ Door::Door(int gpioIn, int gpioOut, GPIOController* gc) {
 	this->gpioIn = gpioIn;
 	this->gpioOut = gpioOut;
 	this->gc = gc;
-	this->_isControllable = true;
-	this->_hasSensor = true;
+	
+	if(gpioIn != null) {
+		this->_hasButton = true;
+	}
+	
+	if(gpioOut != null) {
+		this->_isControllable = true;
+	}
 }
 
 bool Door::isOpen() {
@@ -27,8 +33,8 @@ bool Door::isControllable() {
 	return this->_isControllable;
 }
 
-bool Door::hasSensor() {
-	return this->_hasSensor;
+bool Door::hasButton() {
+	return this->_hasButton;
 }
 
 void Door::openDoor() {
