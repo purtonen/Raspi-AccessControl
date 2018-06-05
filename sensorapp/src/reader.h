@@ -6,14 +6,16 @@
 #include "door.h"
 #include "card.h"
 
+class Door;
+
 class Reader {
 	int id;
-	Door door;
-	void listenToCards();
+	Door* door;
+	static void listenToCards();
 
 public:
 	Reader();
-	void setDoor(Door door);
+	void setDoor(Door* door);
 	void startListener();
 };
 

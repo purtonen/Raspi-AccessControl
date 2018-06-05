@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <vector>
 
 #include "door.h"
 
@@ -10,7 +11,7 @@ Door::Door() {
 	this->_hasButton = false;
 }
 
-Door::Door(int gpioIn, int gpioOut, GPIOController* gc, DoorController* dc, vector<Card> acceptedCards) {
+Door::Door(int gpioIn, int gpioOut, GPIOController* gc, DoorController* dc) {
 	this->gpioIn = gpioIn;
 	this->gpioOut = gpioOut;
 	this->gc = gc;
@@ -18,25 +19,26 @@ Door::Door(int gpioIn, int gpioOut, GPIOController* gc, DoorController* dc, vect
 	this->reader = reader;
 	this->acceptedCards = acceptedCards;
 	
-	if(gpioIn != null) {
+	if(gpioIn != NULL) {
 		this->_hasButton = true;
 	}
 	
-	if(gpioOut != null) {
+	if(gpioOut != NULL) {
 		this->_isControllable = true;
 	}
 }
 
-void Door::setReader(Reader reader){
+void Door::addCard(Card card){
+	
+}
+
+void Door::setReader(Reader* reader){
 	this->reader = reader;
 	reader->setDoor(this);
 }
 
-void Door::cardReadEvent(){
-	string card;
-	while(1){
-		card = reader->readCard();
-	}
+void Door::cardReadEvent(string card){
+	cout << card << endl;
 }
 
 bool Door::stateChanged(){

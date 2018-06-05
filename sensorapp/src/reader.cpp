@@ -1,17 +1,22 @@
 #include <thread>
 #include <string>
+#include <unistd.h>
 
+#include "MFRC522.h"
 #include "reader.h"
 #include "door.h"
 
 using namespace std;
 
 Reader::Reader() {
-	this->running = false;
 }
 
-private void listenToCards(){
+void Reader::listenToCards(){
+
+	MFRC522 mfrc;
+	mfrc.PCD_Init();
 	string card;
+
 	while (1) {
 		// Look for a card
 		if (!mfrc.PICC_IsNewCardPresent())
@@ -37,7 +42,7 @@ private void listenToCards(){
 	}
 }
 
-void Reader::setDoor(Door door) {
+void Reader::setDoor(Door* door) {
 	this->door = door;
 }
 

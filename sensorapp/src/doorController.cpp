@@ -17,12 +17,18 @@ DoorController::DoorController(GPIOController* gc) {
 	this->gc = gc;
 }
 
-void DoorController::addDoor(int index, Door &door) {
+void DoorController::addDoor(int index, Door* door) {
 	this->doors[index] = door;
 }
 
 void DoorController::removeDoor(int index) {
 	this->doors.erase(index);
+}
+
+static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
+	DoorController* dc = (DoorController*) NotUsed;
+	dc->callbackHandler(argc, argv, azColName);
+	return 0;
 }
 
 void DoorController::initDoors() {
@@ -46,17 +52,13 @@ void DoorController::initDoors() {
 	sqlite3_close(db);
 }
 
-static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
-	DoorController* dc = (DoorController*) NotUsed;
-	dc->callbackHandler(argc, argv, azColName);
-	return 0;
-}
-
 void DoorController::callbackHandler(int argc, char **argv, char **azColName) {
 	for (int i = 0; i < argc; i++) {
 		//printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 		cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << "\t";
 	}
+
+	cout << endl;
 
 	int in, out;
 	if (argv[1]) {
@@ -69,7 +71,7 @@ void DoorController::callbackHandler(int argc, char **argv, char **azColName) {
 		this->gc->addGPIO(out, "out");
 	}
 
-	Door newDoor = Door(in, out, this->gc);
+	Door* newDoor = new Door(in, out, this->gc, this);
 	int doorIndex = strtol(argv[0], NULL, 0);
 	this->doors[doorIndex] = newDoor;
 }
@@ -78,8 +80,8 @@ int DoorController::openDoor(int index) {
 	if (this->doors.find(index) == this->doors.end()) {
 		return -1;
 	}
-	if (this->doors[index].isControllable()) {
-		this->doors[index].openDoor();
+	if (this->doors[index]->isControllable()) {
+		this->doors[index]->openDoor();
 		return 0;
 	}
 
@@ -90,8 +92,8 @@ int DoorController::closeDoor(int index) {
 	if (this->doors.find(index) == this->doors.end()) {
 		return -1;
 	}
-	if (this->doors[index].isControllable()) {
-		this->doors[index].closeDoor();
+	if (this->doors[index]->isControllable()) {
+		this->doors[index]->closeDoor();
 		return 0;
 	}
 

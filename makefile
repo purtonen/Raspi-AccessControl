@@ -11,7 +11,7 @@ SRCDIR = sensorapp/src
 BINDIR = sensorapp/bin
 
 # Libraries
-LIBS = -pthread -lsqlite3
+LIBS = -pthread -lsqlite3 -lbcm2835
 
 # Files and folders
 SRCS    = $(shell find $(SRCDIR) -name '*.cpp')

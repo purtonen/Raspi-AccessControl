@@ -8,13 +8,15 @@
 #include "door.h"
 #include "gpioController.h"
 
+class Door;
+
 class DoorController {
-	std::map<int, Door> doors;
+	std::map<int, Door*> doors;
 	GPIOController* gc;
 public:
 	DoorController();
 	DoorController(GPIOController* gc);
-	void addDoor(int index, Door &door);
+	void addDoor(int index, Door* door);
 	void removeDoor(int index);
 	void initDoors();
 	int openDoor(int index);
