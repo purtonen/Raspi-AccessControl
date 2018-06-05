@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Log{
+class Log {
 	int id;
 	std::string timestamp, description;
 

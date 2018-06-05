@@ -8,7 +8,7 @@ var concat = require('gulp-concat');
 var notify = require("gulp-notify");
 var compass = require("gulp-compass");
 
-gulp.task('sass', function() {
+gulp.task('sass', function () {
 
 	gulp.src('assets/css/scss/*.scss')
 	//.pipe(plumber())
@@ -21,12 +21,12 @@ gulp.task('sass', function() {
 		browsers: ['last 2 versions']
 	}))
 	.pipe(sourcemaps.write('./'))
-	.pipe(gulp.dest('./assets/css/'))
+	.pipe(gulp.dest('./assets/css/'));
 	//.pipe(exit());
 });
 
 gulp.task('watch', function () {
-	gulp.watch('assets/css/scss/*.scss', [ "sass" ]);
+	gulp.watch('assets/css/scss/*.scss', ["sass"]);
 });
 
 gulp.task('default', ["sass"]);

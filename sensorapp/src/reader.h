@@ -6,7 +6,7 @@
 #include "door.h"
 #include "card.h"
 
-class Reader{
+class Reader {
 	int id;
 	Door door;
 	std::vector<Card> cards;

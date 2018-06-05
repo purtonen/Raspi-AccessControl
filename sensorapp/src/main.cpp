@@ -25,8 +25,8 @@
 using namespace std;
 
 // Constants
-const char *socketPath = (char*)"/tmp/ipc-test";
-const string availableGPIO[] = {"2","3","4","17","27","22","10","9","11","14","15","18","23","24","25","8","7"};
+const char *socketPath = (char*) "/tmp/ipc-test";
+const string availableGPIO[] = {"2", "3", "4", "17", "27", "22", "10", "9", "11", "14", "15", "18", "23", "24", "25", "8", "7"};
 
 // Main variables
 SocketWriter sw;
@@ -40,13 +40,14 @@ void listenToGPIO(); // Thread: Continuously read the gpio controller and call s
 void initGPIO(); // Initialize the GPIO and add them to the GPIO controller
 
 // Main function
-int main (int argc, char *argv[]) {
+
+int main(int argc, char *argv[]) {
 	usleep(50000);
 	cout << " " << endl; // clear bash output
 
 	struct sockaddr_un addr;
 	int fd, cl, rc;
-	char* msg = (char*)"Hello back";
+	char* msg = (char*) "Hello back";
 	bool connected = false;
 
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
@@ -54,17 +55,17 @@ int main (int argc, char *argv[]) {
 		return -1;
 	}
 
-	memset(&addr, 0, sizeof(addr));
+	memset(&addr, 0, sizeof (addr));
 	addr.sun_family = AF_UNIX;
-	if (*socketPath == '\0'){
+	if (*socketPath == '\0') {
 		*addr.sun_path = '\0';
-		strncpy(addr.sun_path + 1, socketPath + 1, sizeof(addr.sun_path) - 2);
+		strncpy(addr.sun_path + 1, socketPath + 1, sizeof (addr.sun_path) - 2);
 	} else {
-		strncpy(addr.sun_path, socketPath, sizeof(addr.sun_path) - 1);
+		strncpy(addr.sun_path, socketPath, sizeof (addr.sun_path) - 1);
 		unlink(socketPath);
 	}
 
-	if (bind(fd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+	if (bind(fd, (struct sockaddr *) &addr, sizeof (addr)) == -1) {
 		perror("bind error");
 		return -1;
 	}
@@ -90,7 +91,7 @@ int main (int argc, char *argv[]) {
 			perror("ERROR writing to socket");
 			return -1;
 		}
-			
+
 	}
 
 	cout << "socketserver: Connections done" << endl;
@@ -115,27 +116,26 @@ int main (int argc, char *argv[]) {
 }
 // End main function
 
-
-void msgInterpreter(string msg){
+void msgInterpreter(string msg) {
 	vector<string> splitStrings;
 	stringstream ss(msg);
-    string item;
-    while (getline(ss, item, '|')) {
-        splitStrings.push_back(item);
-    }
-	for(auto it = splitStrings.begin(), end = splitStrings.end(); it != end; ++it){
+	string item;
+	while (getline(ss, item, '|')) {
+		splitStrings.push_back(item);
+	}
+	for (auto it = splitStrings.begin(), end = splitStrings.end(); it != end; ++it) {
 		cout << "socketserver: interpreter: " << *it << endl;
 	}
-	if(splitStrings.size() > 2){
+	if (splitStrings.size() > 2) {
 		stringstream split(splitStrings[1]);
 		int targetDoorId;
 		split >> targetDoorId;
-		if(splitStrings[0] == "door" && splitStrings[2] == "open"){
-			if(dc.openDoor(targetDoorId) == -1){
+		if (splitStrings[0] == "door" && splitStrings[2] == "open") {
+			if (dc.openDoor(targetDoorId) == -1) {
 				cout << "socketserver: interpreter: door " << targetDoorId << " not controllable" << endl;
 			}
-		} else if(splitStrings[0] == "door" && splitStrings[2] == "close"){
-			if(dc.closeDoor(targetDoorId) == -1){
+		} else if (splitStrings[0] == "door" && splitStrings[2] == "close") {
+			if (dc.closeDoor(targetDoorId) == -1) {
 				cout << "socketserver: interpreter: door " << targetDoorId << " not controllable" << endl;
 			}
 		}
@@ -144,11 +144,11 @@ void msgInterpreter(string msg){
 	}
 }
 
-void listenToSocket(int rc, int cl){
+void listenToSocket(int rc, int cl) {
 	char buf[100];
 
-	while(1){
-		while ((rc = read(cl, buf, sizeof(buf))) > 0) {
+	while (1) {
+		while ((rc = read(cl, buf, sizeof (buf))) > 0) {
 			string msg(buf, rc);
 			msgInterpreter(msg);
 		}
@@ -163,22 +163,22 @@ void listenToSocket(int rc, int cl){
 	}
 }
 
-void listenToGPIO(){
-    while(1){
-        gc->readGPIO();
-    }
+void listenToGPIO() {
+	while (1) {
+		gc->readGPIO();
+	}
 }
 
-void initGPIO(){
+void initGPIO() {
 	// GPIO gpio4 = GPIO("4");
-    // gpio4.export_gpio();
-    // usleep(5000);
-    // gpio4.setdir_gpio("in");
+	// gpio4.export_gpio();
+	// usleep(5000);
+	// gpio4.setdir_gpio("in");
 
 	// GPIO gpio18 = GPIO("18");
-    // gpio18.export_gpio();
-    // usleep(5000);
-    // gpio18.setdir_gpio("out");
+	// gpio18.export_gpio();
+	// usleep(5000);
+	// gpio18.setdir_gpio("out");
 
 	// gc.addGPIO(gpio4);
 	// gc.addGPIO(gpio18);

@@ -3,8 +3,9 @@
 
 #include "gpioController.h"
 
-class Door{
-	int id, gpioIn, gpioOut;;
+class Door {
+	int id, gpioIn, gpioOut;
+	;
 	bool _isOpen, _isControllable, _hasSensor;
 	GPIOController* gc;
 public:

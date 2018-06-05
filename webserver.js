@@ -1,10 +1,10 @@
 /*	This is the Node.js intermediate between the frontend and the sensorapp.
-*	Main purpose of this app is to deliver messages between frontend
-*	and backend. 
-*	This app connects to a Unix socket created by the sensorapp, creates
-*	its own websocket for the frontend to connect to, and passes data
-*	along these pipelines. All data is transferred via JSON strings. 
-*/
+ *	Main purpose of this app is to deliver messages between frontend
+ *	and backend. 
+ *	This app connects to a Unix socket created by the sensorapp, creates
+ *	its own websocket for the frontend to connect to, and passes data
+ *	along these pipelines. All data is transferred via JSON strings. 
+ */
 
 
 const util = require('util');
@@ -47,35 +47,35 @@ function broadcast(webSocketServer, msg) {
 }
 
 // Handle all incoming messages from client (front end)
-function clientMessageHandler(msg){
+function clientMessageHandler(msg) {
 	unixSocket.write(msg);
 }
 
 // Connect to the Unix socket created by the sensorapp
-function connectToSocket(){
-	
-	var unixSocket = net.createConnection(socketPath, function(){
+function connectToSocket() {
+
+	var unixSocket = net.createConnection(socketPath, function () {
 		console.log('webserver.js: Connected to Unix socket');
 		unixSocket.write('HELLO!');
 	});
 
 	// Catch all connection errors and recursively try again in intervals
-	unixSocket.on('error', function(e){
+	unixSocket.on('error', function (e) {
 		// Make each reconnect timeout 100ms longer than the previous one
 		reconnectTimeout += 100;
 		// If timeout grovs beyond a threshold, stop trying and exit
-		if(reconnectTimeout > 10000){
+		if (reconnectTimeout > 10000) {
 			console.log('webserver.js: socket connection timeout, exiting...');
 			process.exit();
 		} else {
-			console.log('webserver.js: error connecting, retrying in '+reconnectTimeout+'ms...');
+			console.log('webserver.js: error connecting, retrying in ' + reconnectTimeout + 'ms...');
 			setTimeout(connectToSocket, reconnectTimeout);
 		}
-		
+
 	});
 
 	// Event for catching incoming data from sensorapp
-	unixSocket.on('data', function(data){
+	unixSocket.on('data', function (data) {
 		data = data.toString();
 		broadcast(webSocketServer, data);
 	});

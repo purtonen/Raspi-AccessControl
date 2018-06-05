@@ -3,14 +3,13 @@
 
 #include <string>
 
-class SocketWriter
-{
+class SocketWriter {
 public:
-    SocketWriter();
-    SocketWriter(int cl);
-    void writeToSocket(std::string msg);
+	SocketWriter();
+	SocketWriter(int cl);
+	void writeToSocket(std::string msg);
 private:
-    int cl;
+	int cl;
 };
 
 #endif

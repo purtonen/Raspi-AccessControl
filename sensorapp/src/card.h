@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Card{
+class Card {
 	int id;
 	std::string cardholder;
 	bool isOpen;

@@ -4,13 +4,13 @@
 
 using namespace std;
 
-Door::Door(){
+Door::Door() {
 	this->_isOpen = true;
 	this->_isControllable = false;
 	this->_hasSensor = false;
 }
 
-Door::Door(int gpioIn, int gpioOut, GPIOController* gc){
+Door::Door(int gpioIn, int gpioOut, GPIOController* gc) {
 	this->_isOpen = true;
 	this->gpioIn = gpioIn;
 	this->gpioOut = gpioOut;
@@ -19,20 +19,20 @@ Door::Door(int gpioIn, int gpioOut, GPIOController* gc){
 	this->_hasSensor = true;
 }
 
-bool Door::isOpen(){
+bool Door::isOpen() {
 	return this->_isOpen;
 }
 
-bool Door::isControllable(){
+bool Door::isControllable() {
 	return this->_isControllable;
 }
 
-bool Door::hasSensor(){
+bool Door::hasSensor() {
 	return this->_hasSensor;
 }
 
-void Door::openDoor(){
-	if(this->_isControllable){
+void Door::openDoor() {
+	if (this->_isControllable) {
 		this->_isOpen = true;
 		this->gc->writeToGPIO(this->gpioOut, "0");
 	} else {
@@ -40,8 +40,8 @@ void Door::openDoor(){
 	}
 }
 
-void Door::closeDoor(){
-	if(this->_isControllable){
+void Door::closeDoor() {
+	if (this->_isControllable) {
 		this->_isOpen = true;
 		this->gc->writeToGPIO(this->gpioOut, "1");
 	} else {
