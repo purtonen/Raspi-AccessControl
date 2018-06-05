@@ -34,7 +34,7 @@ GPIOController* gc;
 DoorController dc;
 
 // Functions
-void msgInterpreter(string msg); // Interpret incoming JSON data and call the neccessary functions
+void msgInterpreter(string msg); // Interpret incoming JSON data and call the necessary functions
 void listenToSocket(int rc, int cl); // Thread: Continuously read the Unix socket and call msgInterpreter on message
 void listenToGPIO(); // Thread: Continuously read the gpio controller and call socketwriter
 void initGPIO(); // Initialize the GPIO and add them to the GPIO controller

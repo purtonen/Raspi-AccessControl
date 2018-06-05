@@ -1,20 +1,22 @@
 #include <iostream>
+#include <thread>
 
 #include "door.h"
 
 using namespace std;
 
 Door::Door() {
-	this->_isOpen = true;
 	this->_isControllable = false;
 	this->_hasButton = false;
 }
 
-Door::Door(int gpioIn, int gpioOut, GPIOController* gc) {
-	this->_isOpen = true;
+Door::Door(int gpioIn, int gpioOut, GPIOController* gc, DoorController* dc, vector<Card> acceptedCards) {
 	this->gpioIn = gpioIn;
 	this->gpioOut = gpioOut;
 	this->gc = gc;
+	this->dc = dc;
+	this->reader = reader;
+	this->acceptedCards = acceptedCards;
 	
 	if(gpioIn != null) {
 		this->_hasButton = true;
@@ -23,6 +25,26 @@ Door::Door(int gpioIn, int gpioOut, GPIOController* gc) {
 	if(gpioOut != null) {
 		this->_isControllable = true;
 	}
+}
+
+void Door::setReader(Reader reader){
+	this->reader = reader;
+	reader->setDoor(this);
+}
+
+void Door::cardReadEvent(){
+	string card;
+	while(1){
+		card = reader->readCard();
+	}
+}
+
+bool Door::stateChanged(){
+	bool changed = this->_isOpen == this->previousState;
+	if(changed) {
+		this->previousState = this->_isOpen;
+	}
+	return changed;
 }
 
 bool Door::isOpen() {

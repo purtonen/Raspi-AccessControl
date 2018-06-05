@@ -2,19 +2,14 @@
 #define DOORCONTROLLER_H
 
 #include <string>
-#include <vector>
 #include <map>
 
 #include "card.h"
 #include "door.h"
 #include "gpioController.h"
 
-/* Door controller Class
- * Purpose: Wrap all Doors to one class for opening and closing doors
- */
 class DoorController {
 	std::map<int, Door> doors;
-	std::vector<Card> acceptedCards;
 	GPIOController* gc;
 public:
 	DoorController();

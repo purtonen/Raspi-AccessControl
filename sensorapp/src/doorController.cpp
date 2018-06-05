@@ -17,12 +17,6 @@ DoorController::DoorController(GPIOController* gc) {
 	this->gc = gc;
 }
 
-static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
-	DoorController* dc = (DoorController*) NotUsed;
-	dc->callbackHandler(argc, argv, azColName);
-	return 0;
-}
-
 void DoorController::addDoor(int index, Door &door) {
 	this->doors[index] = door;
 }
@@ -50,6 +44,12 @@ void DoorController::initDoors() {
 	}
 
 	sqlite3_close(db);
+}
+
+static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
+	DoorController* dc = (DoorController*) NotUsed;
+	dc->callbackHandler(argc, argv, azColName);
+	return 0;
 }
 
 void DoorController::callbackHandler(int argc, char **argv, char **azColName) {

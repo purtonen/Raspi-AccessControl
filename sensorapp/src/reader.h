@@ -9,16 +9,12 @@
 class Reader {
 	int id;
 	Door door;
-	std::vector<Card> cards;
-	bool running;
+	void listenToCards();
 
 public:
 	Reader();
-	void closeDoor();
-	void openDoor();
 	void setDoor(Door door);
-	void addCard(Card card);
-	void startReader();
+	void startListener();
 };
 
 #endif

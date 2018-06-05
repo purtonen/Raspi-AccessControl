@@ -12,7 +12,7 @@ GPIO::GPIO() {
 }
 
 GPIO::GPIO(string gnum) {
-	this->gpionum = gnum; //Instatiate GPIO object for GPIO pin number "gnum"
+	this->gpionum = gnum; //Instantiate GPIO object for GPIO pin number "gnum"
 	this->valueChanged = false;
 }
 
