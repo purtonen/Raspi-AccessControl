@@ -50,11 +50,13 @@ int main(int argc, char *argv[]) {
 	char* msg = (char*) "Hello back";
 	bool connected = false;
 
+    // Create a socket
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1) {
 		perror("socket error");
 		return -1;
 	}
 
+    // Set address for socket
 	memset(&addr, 0, sizeof (addr));
 	addr.sun_family = AF_UNIX;
 	if (*socketPath == '\0') {
@@ -65,11 +67,13 @@ int main(int argc, char *argv[]) {
 		unlink(socketPath);
 	}
 
+    // Bind the socket to the address
 	if (bind(fd, (struct sockaddr *) &addr, sizeof (addr)) == -1) {
 		perror("bind error");
 		return -1;
 	}
 
+    // Listen for connections on the socket
 	if (listen(fd, 5) == -1) {
 		perror("listen error");
 		return -1;
@@ -78,6 +82,7 @@ int main(int argc, char *argv[]) {
 	// Wait for node.js connection
 	while (!connected) {
 
+        // Accept incoming connection
 		if ((cl = accept(fd, NULL, NULL)) == -1) {
 			perror("accept error");
 			continue;
@@ -87,6 +92,7 @@ int main(int argc, char *argv[]) {
 
 		connected = true;
 
+        // Send message to connected client to check connection
 		if (send(cl, msg, strlen(msg), 0) < 0) {
 			perror("ERROR writing to socket");
 			return -1;
@@ -146,11 +152,21 @@ void msgInterpreter(string msg) {
 
 void listenToSocket(int rc, int cl) {
 	char buf[100];
+	string delimiter = ";";
 
 	while (1) {
+	    // Read data from socket
 		while ((rc = read(cl, buf, sizeof (buf))) > 0) {
 			string msg(buf, rc);
-			msgInterpreter(msg);
+			size_t pos = 0;
+            string token;
+            // Split data by delimiter ";" and interpret them separately, in case of concatenation
+            while ((pos = msg.find(delimiter)) != string::npos) {
+                token = msg.substr(0, pos);
+                msgInterpreter(token);
+                msg.erase(0, pos + delimiter.length());
+            }
+
 		}
 
 		if (rc == -1) {
