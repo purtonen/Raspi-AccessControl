@@ -336,6 +336,49 @@ footer{
 	overflow-y: auto;
 }
 
+node{
+	display: inline-block;
+	margin: 40px;
+	.tooltip{
+		font-size: 16px;
+		color: white;
+		font-weight: 100;
+		font-family: 'Audimat';
+		display: block;
+		margin: 10px;
+	}
+	&.alarm{
+		color: red;
+	}
+	.fa{
+		font-size: 60px;
+	}
+	button{
+		opacity: 1;
+		transition: opacity .3s ease;
+		&:hover{
+			cursor: pointer;
+			opacity: .7;
+		}
+		&.fa{
+			background: none;
+			border: none;
+			&-door-open{
+				color: red;
+			}
+			&-door-closed{
+				color: green;
+			}
+			i.fa{
+				color: white;
+				font-size: 30px;
+				vertical-align: top;
+			}
+			
+		}
+	}
+}
+
 i.fi{
 	vertical-align: middle;
 	&.tn{

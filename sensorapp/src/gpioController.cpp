@@ -46,9 +46,10 @@ void GPIOController::readGPIO() {
 			string msg = R"({
 				"logEntry":{
 					"timestamp":")" + date_r + R"(",
-					"event_type":"sensor_triggered",
-					"sensor_type":"raw",
-					"sensor_value":")" + val + R"("
+					"eventType":"sensor_triggered",
+					"sensorType":"raw",
+					"sensorValue":")" + val + R"(",
+					"sensorId":")" + it->second.get_gpionum() + R"("
 				}
 			})";
 			this->sw.writeToSocket(msg);

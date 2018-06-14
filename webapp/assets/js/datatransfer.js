@@ -25,11 +25,17 @@ $(document).ready(function () {
 			retryWrapper.hide();
 
 			doorButton.click(function () {
-				var id = $(this).attr('data-id');
-				var command = $(this).attr('data-command');
+				var id = $(this).data('id');
+				var command = $(this).data('command');
 				var msg = "door|" + id + "|" + command;
 				console.log(msg);
 				socket.send(msg);
+				$(this).toggleClass('fa-door-open fa-door-closed');
+				if(command == 'open'){
+					$(this).data('command', 'close');
+				} else if(command == 'close'){
+					$(this).data('command', 'open');
+				}
 			});
 		};
 
@@ -43,12 +49,23 @@ $(document).ready(function () {
 		socket.onmessage = function (event) {
 			var data = JSON.parse(event.data);
 			console.log(data);
+			interpretMessage(data);
 		};
 
 		return socket;
 	}
 
 });
+
+function interpretMessage(msg){
+	if(msg.logEntry.eventType == 'sensor_triggered' && msg.logEntry.sensorValue == 1){
+		var id = msg.logEntry.sensorId;
+		$('node[data-id="'+id+'"]').addClass('alarm');
+	} else if(msg.logEntry.eventType == 'sensor_triggered' && msg.logEntry.sensorValue == 0){
+		var id = msg.logEntry.sensorId;
+		$('node[data-id="'+id+'"]').removeClass('alarm');
+	}
+}
 
 $(document).on('submit', 'form', function (e) {
 	e.preventDefault();
