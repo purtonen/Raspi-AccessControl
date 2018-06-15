@@ -27,7 +27,7 @@ $(document).ready(function () {
 			doorButton.click(function () {
 				var id = $(this).data('id');
 				var command = $(this).data('command');
-				var msg = "door|" + id + "|" + command;
+				var msg = "door|" + id + "|" + command + ";";
 				console.log(msg);
 				socket.send(msg);
 				$(this).toggleClass('fa-door-open fa-door-closed');
