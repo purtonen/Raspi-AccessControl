@@ -1,6 +1,7 @@
 #include <thread>
 #include <string>
 #include <unistd.h>
+#include <iostream>
 
 #include "MFRC522.h"
 #include "reader.h"
@@ -47,6 +48,8 @@ void Reader::setDoor(Door* door) {
 }
 
 void Reader::startListener() {
-	thread cardListenerThread(listenToCards);
+	cout << "thread start" << endl;
+	thread cardListenerThread(&Reader::listenToCards, this);
+	cout << "thread end" << endl;
 	cardListenerThread.join();
 }

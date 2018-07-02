@@ -11,7 +11,8 @@ const util = require('util');
 var net = require('net');
 var ws = require('nodejs-websocket');
 
-var reconnectTimeout = 0;
+var reconnectTimeout = 1000;
+var reconnects = 0;
 
 const socketPath = '/tmp/ipc-test';
 
@@ -61,10 +62,9 @@ function connectToSocket() {
 
 	// Catch all connection errors and recursively try again in intervals
 	unixSocket.on('error', function (e) {
-		// Make each reconnect timeout 100ms longer than the previous one
-		reconnectTimeout += 100;
+		reconnects++;
 		// If timeout grovs beyond a threshold, stop trying and exit
-		if (reconnectTimeout > 10000) {
+		if (reconnects > 10) {
 			console.log('webserver.js: socket connection timeout, exiting...');
 			process.exit();
 		} else {

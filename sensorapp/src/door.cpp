@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "door.h"
+#include "reader.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ Door::Door(int gpioIn, int gpioOut, GPIOController* gc, DoorController* dc) {
 	this->gpioOut = gpioOut;
 	this->gc = gc;
 	this->dc = dc;
-	this->reader = reader;
+	//this->reader = reader;
 	this->acceptedCards = acceptedCards;
 	
 	if(gpioIn != NULL) {
@@ -35,6 +36,7 @@ void Door::addCard(Card card){
 void Door::setReader(Reader* reader){
 	this->reader = reader;
 	reader->setDoor(this);
+	reader->startListener();
 }
 
 void Door::cardReadEvent(string card){

@@ -6,7 +6,6 @@
 
 #include "gpioController.h"
 #include "doorController.h"
-#include "reader.h"
 #include "card.h"
 
 class Reader;

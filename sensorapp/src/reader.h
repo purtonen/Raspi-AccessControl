@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "door.h"
 #include "card.h"
 
 class Door;
@@ -11,7 +10,7 @@ class Door;
 class Reader {
 	int id;
 	Door* door;
-	static void listenToCards();
+	void listenToCards();
 
 public:
 	Reader();

@@ -6,6 +6,7 @@
 #include "sqlite3.h"
 #include "doorController.h"
 #include "gpioController.h"
+#include "reader.h"
 #include "door.h"
 
 using namespace std;
@@ -71,7 +72,10 @@ void DoorController::callbackHandler(int argc, char **argv, char **azColName) {
 		this->gc->addGPIO(out, "out");
 	}
 
+	Reader* reader = new Reader();
 	Door* newDoor = new Door(in, out, this->gc, this);
+	newDoor->setReader(reader);
+	
 	int doorIndex = strtol(argv[0], NULL, 0);
 	this->doors[doorIndex] = newDoor;
 }
